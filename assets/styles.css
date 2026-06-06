@@ -951,3 +951,53 @@
   .page-nav { grid-template-columns: 1fr; }
   .page-nav a.next { text-align: left; align-items: flex-start; }
 }
+/* ===================================================
+   ADD THESE STYLES TO YOUR styles.css
+   Paste at the end of the file.
+   =================================================== */
+
+/* AI bot reply line — magenta, indicating "Claude said this" */
+.mt-line.bot {
+  color: var(--amber);
+  padding-left: 12px;
+  position: relative;
+  line-height: 1.5;
+  margin: 4px 0;
+}
+.mt-line.bot::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--amber);
+  text-shadow: 0 0 6px rgba(255,43,214,0.6);
+}
+
+/* "thinking..." indicator with animated dots */
+.mt-line.bot-thinking {
+  color: var(--cyan);
+  padding-left: 12px;
+  position: relative;
+  font-style: italic;
+  opacity: 0.85;
+}
+.mt-line.bot-thinking::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--cyan);
+}
+.mt-line.bot-thinking .dots {
+  display: inline-block;
+  animation: thinking-dots 1.4s infinite;
+}
+@keyframes thinking-dots {
+  0%, 20%   { opacity: 0; }
+  40%       { opacity: 0.4; }
+  60%, 100% { opacity: 1; }
+}
+
+/* Disable state during waiting */
+.mt-input:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
