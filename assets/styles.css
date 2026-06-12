@@ -1001,3 +1001,79 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+/* ===================================================
+   CUSTOM NEON CURSOR
+   =================================================== */
+
+/* Hide native cursor everywhere except text inputs */
+body { cursor: none; }
+input, textarea, select, [contenteditable] { cursor: text; }
+
+/* The small "dot" that tracks exactly with the mouse */
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 8px var(--green),
+    0 0 16px rgba(0,240,255,0.5);
+  opacity: 1;
+  transition: opacity 0.25s, background 0.15s, transform 0.08s;
+  mix-blend-mode: screen;
+}
+
+/* The larger ring that lags slightly behind */
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--amber);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 8px rgba(255,43,214,0.4),
+    inset 0 0 4px rgba(255,43,214,0.2);
+  opacity: 0.9;
+  transition: width 0.25s ease, height 0.25s ease,
+              border-color 0.2s, background 0.2s,
+              opacity 0.25s, transform 0.12s ease-out;
+}
+
+/* Expanded state — when hovering links, buttons, cards */
+.cursor-ring.hover {
+  width: 56px;
+  height: 56px;
+  border-color: var(--green);
+  background: rgba(0,240,255,0.08);
+  box-shadow:
+    0 0 16px rgba(0,240,255,0.5),
+    inset 0 0 8px rgba(0,240,255,0.2);
+}
+
+/* Click — quick squeeze */
+.cursor-ring.click {
+  width: 22px;
+  height: 22px;
+  border-color: var(--green);
+}
+
+/* When mouse leaves the window */
+.cursor-dot.hidden,
+.cursor-ring.hidden {
+  opacity: 0;
+}
+
+/* Disable on touch devices and respect reduced-motion preference */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  body { cursor: auto; }
+  .cursor-dot, .cursor-ring { display: none; }
+}
