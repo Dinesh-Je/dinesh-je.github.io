@@ -268,4 +268,54 @@ if (cf) {
   });
 }
   /* ===== RESUME BUTTON — now links directly to Drive ===== */
+   /* ===== CUSTOM NEON CURSOR ===== */
+  (function initCursor() {
+    // Skip on touch devices or reduced motion
+    if (window.matchMedia('(hover: none)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    document.body.appendChild(dot);
+
+    const ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+    document.body.appendChild(ring);
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX, ringY = mouseY;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    });
+
+    function animate() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    const hoverTargets = 'a, button, input[type=submit], input[type=button], .download-btn, .send-btn, .quick-nav a, .insight, .proj-card, .li-badge-card, [role=button], label';
+    document.querySelectorAll(hoverTargets).forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+    });
+
+    document.addEventListener('mousedown', () => ring.classList.add('click'));
+    document.addEventListener('mouseup', () => ring.classList.remove('click'));
+
+    document.addEventListener('mouseleave', () => {
+      dot.classList.add('hidden');
+      ring.classList.add('hidden');
+    });
+    document.addEventListener('mouseenter', () => {
+      dot.classList.remove('hidden');
+      ring.classList.remove('hidden');
+    });
+  })();
 })();
