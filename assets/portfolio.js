@@ -244,3 +244,4 @@ const BOT_ENDPOINT = 'https://dinesh-portfolio-bot.dinesh-je94.workers.dev';
   }
 
   /* ===== RESUME BUTTON — now links directly to Drive ===== */
+})();
