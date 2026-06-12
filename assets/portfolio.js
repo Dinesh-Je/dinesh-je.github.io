@@ -228,20 +228,44 @@ const BOT_ENDPOINT = 'https://dinesh-portfolio-bot.dinesh-je94.workers.dev';
     });
   }
 
-  /* ===== CONTACT FORM (only on contact page) ===== */
-  const cf = document.getElementById('contactForm');
-  if (cf) {
-    cf.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = cf.querySelector('.send-btn');
-      btn.textContent = '› transmitting...';
-      setTimeout(() => {
+/* ===== CONTACT FORM — Web3Forms integration ===== */
+const cf = document.getElementById('contactForm');
+if (cf) {
+  cf.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = cf.querySelector('.send-btn');
+    btn.textContent = '› transmitting...';
+    btn.disabled = true;
+
+    try {
+      const formData = new FormData(cf);
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
         btn.textContent = '✓ message_sent';
         btn.style.background = 'var(--green)';
         btn.style.color = 'var(--bg)';
-      }, 800);
-    });
-  }
-
+        cf.reset();                      // ← clears all fields
+        setTimeout(() => {
+          btn.textContent = '› send_message';
+          btn.style.background = '';
+          btn.style.color = '';
+          btn.disabled = false;
+        }, 3000);                        // ← resets button after 3 sec
+      } else {
+        btn.textContent = '✗ failed — try again';
+        btn.disabled = false;
+      }
+    } catch (err) {
+      console.error('Form submit failed:', err);
+      btn.textContent = '✗ connection error';
+      btn.disabled = false;
+    }
+  });
+}
   /* ===== RESUME BUTTON — now links directly to Drive ===== */
 })();
