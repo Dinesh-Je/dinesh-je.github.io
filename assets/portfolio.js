@@ -243,12 +243,4 @@ const BOT_ENDPOINT = 'https://dinesh-portfolio-bot.dinesh-je94.workers.dev';
     });
   }
 
-  /* ===== RESUME BUTTON ===== */
-  const db = document.getElementById('downloadBtn');
-  if (db) {
-    db.addEventListener('click', (e) => {
-      e.preventDefault();
-      alert("Replace this with the path to your actual resume.pdf — see the HTML source.");
-    });
-  }
-})();
+  /* ===== RESUME BUTTON — now links directly to Drive ===== */
