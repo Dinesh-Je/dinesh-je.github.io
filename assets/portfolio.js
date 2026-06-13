@@ -318,4 +318,39 @@ if (cf) {
       ring.classList.remove('hidden');
     });
   })();
+   /* ===== MOBILE NAV (hamburger menu) ===== */
+  (function initMobileNav() {
+    const titlebar = document.querySelector('.titlebar');
+    const tabs = document.querySelector('.titlebar .tabs');
+    if (!titlebar || !tabs) return;
+
+    const burger = document.createElement('button');
+    burger.className = 'mobile-nav-toggle';
+    burger.innerHTML = '☰';
+    burger.setAttribute('aria-label', 'Open navigation menu');
+    burger.setAttribute('aria-expanded', 'false');
+    titlebar.appendChild(burger);
+
+    function setOpen(open) {
+      tabs.classList.toggle('mobile-open', open);
+      burger.innerHTML = open ? '✕' : '☰';
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+
+    burger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setOpen(!tabs.classList.contains('mobile-open'));
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!tabs.contains(e.target) && !burger.contains(e.target)) {
+        setOpen(false);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  })();
 })();
